@@ -20,6 +20,7 @@ import java.util.concurrent.Executors
 class MainActivity : AppCompatActivity() {
 
     private val dashNamespace = "urn:x-cast:es.offd.dashcast"
+    private val fallbackUrl = "https://wahoogame302.web.app/tv?room=1234"
     private val ui = Handler(Looper.getMainLooper())
 
     private lateinit var web: WebView
@@ -78,13 +79,11 @@ class MainActivity : AppCompatActivity() {
         if (pendingUrl != null) {
             sendUrl(session)
         } else {
-            // Cast icon tapped directly: ask the page for the TV link (it makes a room code)
+            // Cast icon tapped directly: ask the page for the TV link, or use the fallback
             web.evaluateJavascript("(window.__wahooCastUrl?window.__wahooCastUrl():'')") { raw ->
                 val url = raw?.trim('"') ?: ""
-                if (url.startsWith("http")) {
-                    pendingUrl = url
-                    sendUrl(session)
-                }
+                pendingUrl = if (url.startsWith("http")) url else fallbackUrl
+                sendUrl(session)
             }
         }
     }
@@ -109,7 +108,7 @@ class MainActivity : AppCompatActivity() {
                 if (message.contains("ready", ignoreCase = true)) runOnUiThread { go() }
             })
         } catch (_: Exception) {}
-        ui.postDelayed({ go() }, 4000)
+        ui.postDelayed({ go() }, 8000)
     }
 
     @Deprecated("Deprecated in Java")
