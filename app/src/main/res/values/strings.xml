@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Wahoo</string>
+    <!-- The same page you play in a browser. Change this if your hosting URL is different. -->
+    <string name="start_url">https://wahoogame302.web.app/play</string>
+</resources>

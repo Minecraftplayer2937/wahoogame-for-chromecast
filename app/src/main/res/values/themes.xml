@@ -1,0 +1,8 @@
+<resources>
+    <style name="Theme.Wahoo" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorControlNormal">#FFFFFF</item>
+        <item name="android:statusBarColor">#071538</item>
+        <item name="android:navigationBarColor">#071538</item>
+        <item name="android:windowBackground">#071538</item>
+    </style>
+</resources>
