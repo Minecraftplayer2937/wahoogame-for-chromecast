@@ -101,7 +101,17 @@ class MainActivity : AppCompatActivity() {
                 .put("force", true)
                 .put("reload", false)
                 .put("reload_time", 0)
-            try { session.sendMessage(dashNamespace, json.toString()) } catch (_: Exception) {}
+            try {
+                session.sendMessage(dashNamespace, json.toString()).setResultCallback { status ->
+                    android.widget.Toast.makeText(
+                        this@MainActivity,
+                        if (status.isSuccess) "Sent to DashCast" else "Send failed: " + status.statusMessage,
+                        android.widget.Toast.LENGTH_LONG
+                    ).show()
+                }
+            } catch (e: Exception) {
+                android.widget.Toast.makeText(this@MainActivity, "Error: " + e.message, android.widget.Toast.LENGTH_LONG).show()
+            }
         }
         try {
             session.setMessageReceivedCallbacks(dashNamespace, Cast.MessageReceivedCallback { _, _, message ->
